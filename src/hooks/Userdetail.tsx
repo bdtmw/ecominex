@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import axiosInstance from '@/utils/axiosInstance';
 
 export interface User {
@@ -39,7 +38,7 @@ export const useUsers = () => {
         throw new Error('Invalid user ID');
       }
 
-      await axios.delete(`/api/v1/admin/users/${userId}`);
+      await axiosInstance.delete(`/api/v1/admin/users/${userId}`);
       
       // Remove the user from the local state
       setUsers(prevUsers => prevUsers.filter(user => 

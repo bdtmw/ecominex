@@ -35,6 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# env files
-.env
+# env files (.env holds only the public API URL and is intentionally tracked)
 .env*.local

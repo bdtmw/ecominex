@@ -1,10 +1,18 @@
 import { Machine } from '@/types/machine';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getStoredToken } from '@/utils/authHeader';
 
 export const miningMachinesApiSlice = createApi({
   reducerPath: 'miningMachinesApi',
-  baseQuery: fetchBaseQuery({ 
-    baseUrl: process.env.NEXT_PUBLIC_BASE_URL 
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+    credentials: 'include',
+    // Create/update/delete now require an admin session
+    prepareHeaders: (headers) => {
+      const token = getStoredToken();
+      if (token) headers.set('Authorization', `Bearer ${token}`);
+      return headers;
+    },
   }),
   tagTypes: ['MiningMachine'],
   endpoints: (builder) => ({

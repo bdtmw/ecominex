@@ -1,5 +1,6 @@
 // apiSlice.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getStoredToken } from '@/utils/authHeader';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8000';
 
@@ -10,6 +11,8 @@ export const baseApiSlice = createApi({
     credentials: 'include',
     prepareHeaders: (headers) => {
       headers.set('Accept', 'application/json');
+      const token = getStoredToken();
+      if (token) headers.set('Authorization', `Bearer ${token}`);
       return headers;
     },
   }),

@@ -5,6 +5,7 @@ import Script from "next/script"; // ✅ Import Script
 
 import StoreProvider from "@/lib/feature/provider/StoreProvider";
 import GlobalWidget from "@/components/GlobalWidget";
+import MaintenanceBanner from "@/components/MaintenanceBanner";
 
 
 const poppins = Poppins({
@@ -38,6 +39,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
+          <MaintenanceBanner />
           <StoreProvider>
             {children}
             <GlobalWidget />

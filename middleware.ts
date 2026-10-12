@@ -18,6 +18,9 @@ const authPaths = [
   "/membership",
 ]
 
+// NOTE: this is only a UX redirect, not a security boundary. The API lives on a
+// different origin, so its httpOnly cookie is not visible here. Authorization is
+// enforced by the backend on every request.
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')
   const path = request.nextUrl.pathname
@@ -34,15 +37,7 @@ export function middleware(request: NextRequest) {
 
   // If trying to access auth routes with token
   if (isAuthPath && token) {
-    const response = NextResponse.redirect(new URL('/dashboard', request.url))
-    // Add token to response to ensure it persists
-    response.cookies.set('token', token.value, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-    })
-    return response
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   return NextResponse.next()
